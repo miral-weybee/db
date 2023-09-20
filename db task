@@ -1,0 +1,378 @@
+USE [master]
+GO
+/****** Object:  Database [coursedb]    Script Date: 20-09-2023 11:58:48 ******/
+CREATE DATABASE [coursedb]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'coursedb', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\coursedb.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'coursedb_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\coursedb_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [coursedb] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [coursedb].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [coursedb] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [coursedb] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [coursedb] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [coursedb] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [coursedb] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [coursedb] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [coursedb] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [coursedb] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [coursedb] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [coursedb] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [coursedb] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [coursedb] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [coursedb] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [coursedb] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [coursedb] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [coursedb] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [coursedb] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [coursedb] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [coursedb] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [coursedb] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [coursedb] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [coursedb] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [coursedb] SET RECOVERY FULL 
+GO
+ALTER DATABASE [coursedb] SET  MULTI_USER 
+GO
+ALTER DATABASE [coursedb] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [coursedb] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [coursedb] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [coursedb] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [coursedb] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [coursedb] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'coursedb', N'ON'
+GO
+ALTER DATABASE [coursedb] SET QUERY_STORE = OFF
+GO
+USE [coursedb]
+GO
+/****** Object:  Table [dbo].[AUTHOR]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AUTHOR](
+	[Author_ID] [varchar](50) NOT NULL,
+	[Author_Name] [varchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Author_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[BOOKS]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BOOKS](
+	[Book_Name] [varchar](50) NULL,
+	[Book_ID] [varchar](50) NOT NULL,
+	[Author_ID] [varchar](50) NULL,
+	[Price] [decimal](10, 2) NULL,
+	[Publisher_ID] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Book_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CREDIT_CARD_DETAILS]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CREDIT_CARD_DETAILS](
+	[Credit_Card_Number] [varchar](50) NOT NULL,
+	[Credit_Card_Type] [varchar](50) NULL,
+	[Expiry_Date] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Credit_Card_Number] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CUSTOMER]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CUSTOMER](
+	[Customer_ID] [varchar](50) NOT NULL,
+	[Customer_Name] [varchar](50) NULL,
+	[Street_Address] [varchar](50) NULL,
+	[City] [varchar](50) NULL,
+	[Phone_Number] [varchar](50) NULL,
+	[Credit_Card_Number] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Customer_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ORDER_DETAILS]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ORDER_DETAILS](
+	[Order_ID] [decimal](10, 2) NOT NULL,
+	[Customer_ID] [varchar](50) NULL,
+	[Shipping_Type] [varchar](50) NULL,
+	[Date_of_Purchase] [date] NULL,
+	[Shopping_Cart_ID] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Order_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PUBLISHER]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PUBLISHER](
+	[Publisher_ID] [varchar](50) NOT NULL,
+	[Publisher_Name] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Publisher_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PURCHASE_HISTORY]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PURCHASE_HISTORY](
+	[Customer_ID] [varchar](50) NULL,
+	[Order_ID] [decimal](10, 2) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SHIPPING_TYPE]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SHIPPING_TYPE](
+	[Shipping_Type] [varchar](50) NOT NULL,
+	[Shipping_Price] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Shipping_Type] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SHOPPING_CART]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SHOPPING_CART](
+	[Shopping_Cart_ID] [decimal](10, 2) NOT NULL,
+	[Book_ID] [varchar](50) NULL,
+	[Price] [decimal](10, 2) NULL,
+	[Date] [date] NULL,
+	[Quantity] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Shopping_Cart_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[BOOKS]  WITH CHECK ADD FOREIGN KEY([Author_ID])
+REFERENCES [dbo].[AUTHOR] ([Author_ID])
+GO
+ALTER TABLE [dbo].[BOOKS]  WITH CHECK ADD FOREIGN KEY([Publisher_ID])
+REFERENCES [dbo].[PUBLISHER] ([Publisher_ID])
+GO
+ALTER TABLE [dbo].[CUSTOMER]  WITH CHECK ADD FOREIGN KEY([Credit_Card_Number])
+REFERENCES [dbo].[CREDIT_CARD_DETAILS] ([Credit_Card_Number])
+GO
+ALTER TABLE [dbo].[ORDER_DETAILS]  WITH CHECK ADD FOREIGN KEY([Customer_ID])
+REFERENCES [dbo].[CUSTOMER] ([Customer_ID])
+GO
+ALTER TABLE [dbo].[ORDER_DETAILS]  WITH CHECK ADD FOREIGN KEY([Shipping_Type])
+REFERENCES [dbo].[SHIPPING_TYPE] ([Shipping_Type])
+GO
+ALTER TABLE [dbo].[ORDER_DETAILS]  WITH CHECK ADD FOREIGN KEY([Shopping_Cart_ID])
+REFERENCES [dbo].[SHOPPING_CART] ([Shopping_Cart_ID])
+GO
+ALTER TABLE [dbo].[PURCHASE_HISTORY]  WITH CHECK ADD FOREIGN KEY([Customer_ID])
+REFERENCES [dbo].[CUSTOMER] ([Customer_ID])
+GO
+ALTER TABLE [dbo].[PURCHASE_HISTORY]  WITH CHECK ADD FOREIGN KEY([Order_ID])
+REFERENCES [dbo].[ORDER_DETAILS] ([Order_ID])
+GO
+ALTER TABLE [dbo].[SHOPPING_CART]  WITH CHECK ADD FOREIGN KEY([Book_ID])
+REFERENCES [dbo].[BOOKS] ([Book_ID])
+GO
+/****** Object:  StoredProcedure [dbo].[addAuthor]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[addAuthor]
+	@Author_ID varchar(50),
+	@Author_Name varchar(50)
+AS
+	insert into AUTHOR 
+	values 
+	(@Author_ID, @Author_Name);
+GO
+/****** Object:  StoredProcedure [dbo].[addBooks]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[addBooks]
+	@Book_Name varchar(50),
+	@Book_ID varchar(50),
+	@Author_ID varchar(50),
+	@Price decimal(10,2),
+	@Publisher_ID varchar(50)
+AS
+	insert into BOOKS 
+	values 
+	(@Book_Name,@Book_ID,@Author_ID,@Price,@Publisher_ID);
+GO
+/****** Object:  StoredProcedure [dbo].[addCreditCardDetails]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[addCreditCardDetails]
+	@Credit_Card_Number varchar(50),
+	@Credit_Card_Type varchar(50),
+	@Expiry_Date date
+AS
+	insert into CREDIT_CARD_DETAILS
+	values 
+	(@Credit_Card_Number,@Credit_Card_Type,@Expiry_Date);
+GO
+/****** Object:  StoredProcedure [dbo].[addCustomer]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[addCustomer]
+	@Customer_Id varchar(50),
+	@Customer_Name varchar(50),
+	@Street_Address varchar(50),
+	@City varchar(50),
+	@Phone varchar(50),
+	@Credit_number varchar(50)
+AS
+	insert into CUSTOMER
+	values 
+	(@Customer_Id, @Customer_Name,@Street_Address,@City,@Phone,@Credit_number);
+GO
+/****** Object:  StoredProcedure [dbo].[addPublisher]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[addPublisher]
+	@Publisher_ID varchar(50),
+	@Publisher_Name varchar(50)
+AS
+	insert into PUBLISHER
+	values 
+	(@Publisher_ID, @Publisher_Name);
+GO
+/****** Object:  StoredProcedure [dbo].[addShipping]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[addShipping]
+	@Shipping_type varchar(50),
+	@Shipping_Price decimal(10,2)
+AS
+	insert into SHIPPING_TYPE
+	values 
+	(@Shipping_type,@Shipping_Price);
+GO
+/****** Object:  StoredProcedure [dbo].[addShopping]    Script Date: 20-09-2023 11:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[addShopping]
+	@Shopping_id varchar(50),
+	@Book_id varchar(50),
+	@Price decimal(10,2),
+	@Date date,
+	@Quantity int
+AS
+	insert into SHOPPING_CART
+	values 
+	(@Shopping_id,@Book_id,@Price,@Date,@Quantity);
+GO
+USE [master]
+GO
+ALTER DATABASE [coursedb] SET  READ_WRITE 
+GO
+
+/*Create the view for the Customer_Details. View should include the columns: Customer Name, Customer Address and details of the order placed by customer.*/
+
+Create view Customer_Details AS
+	select Customer.Customer_Name as Name,
+		CUSTOMER.Street_Address as Address,
+		ORDER_DETAILS.Customer_ID as CustomerId, 
+		ORDER_Details.Order_ID as OrderId,
+		ORDER_DETAILS.Date_of_Purchase as [Date of Purchase], 
+		ORDER_DETAILS.Shipping_Type as [Shipping Type], 
+		ORDER_DETAILS.Shopping_Cart_ID as [Shopping Cart Id] from Customer 
+		inner join ORDER_DETAILS 
+		on 
+		CUSTOMER.Customer_ID = ORDER_DETAILS.Customer_ID;
+
+/*Create a report that contains each customer's history of purchasing books. Be sure to include the cusotmer name, customer ID, book ID, DOP and shopping card ID.*/
+select CUSTOMER.Customer_Name, 
+	   CUSTOMER.Customer_ID, 
+	   SHOPPING_CART.Book_ID, 
+	   ORDER_DETAILS.Date_of_Purchase,
+	   ORDER_DETAILS.Shopping_Cart_ID
+	   from CUSTOMER inner join ORDER_DETAILS 
+	   on CUSTOMER.Customer_ID = ORDER_DETAILS.Customer_ID
+	   inner join SHOPPING_CART 
+	   on ORDER_DETAILS.Shopping_Cart_ID = SHOPPING_CART.Shopping_Cart_ID
