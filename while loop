@@ -1,0 +1,20 @@
+EXAMPLE 1:
+
+DECLARE @Counter INT 
+SET @Counter=1
+WHILE ( @Counter <= 10)
+BEGIN
+    PRINT 'The counter value is = ' + CONVERT(VARCHAR,@Counter)
+    SET @Counter  = @Counter  + 1
+END
+
+EXAMPLE 2:
+  
+WHILE ( SELECT AVG(ListPrice) FROM dbo.DimProduct) < $300  
+BEGIN  
+    UPDATE dbo.DimProduct  
+        SET ListPrice = ListPrice * 2;  
+    SELECT MAX ( ListPrice) FROM dbo.DimProduct  
+    IF ( SELECT MAX (ListPrice) FROM dbo.DimProduct) > $500  
+        BREAK;  
+END
