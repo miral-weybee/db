@@ -1,0 +1,20 @@
+1)Scalar User-Defined Functions:
+Ans:CREATE FUNCTION dbo.GetFullName 
+  (
+  @firstName VARCHAR(50),
+  @lastName VARCHAR(50)
+  )
+  RETURNS VARCHAR(100)
+  AS BEGIN RETURN @firstName + ' ' + @lastName; END;
+
+2)Table-Valued User-Defined Functions:
+Ans:CREATE FUNCTION dbo.GetEmployeesByDepartment 
+  (
+  @deptName VARCHAR(50)
+  ) RETURNS TABLE 
+  AS RETURN 
+  (
+  SELECT EmployeeID, Name, Department
+  FROM employees 
+  WHERE Department = @deptName );
+
