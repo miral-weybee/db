@@ -11,3 +11,17 @@
       AS Row#,
     name, recovery_model_desc
   FROM sys.databases WHERE database_id < 5;
+
+3)Ranking all rows in a result set
+  SELECT TOP(10) BusinessEntityID, Rate,   
+       RANK() OVER (ORDER BY Rate DESC) AS RankBySalary  
+  FROM HumanResources.EmployeePayHistory AS eph1  
+  WHERE RateChangeDate = (SELECT MAX(RateChangeDate)   
+                        FROM HumanResources.EmployeePayHistory AS eph2  
+                        WHERE eph1.BusinessEntityID = eph2.BusinessEntityID)  
+  ORDER BY BusinessEntityID;
+
+4)Ranking all rows in a result set using dense rank
+  SELECT TOP(10) BusinessEntityID, Rate,   
+       DENSE_RANK() OVER (ORDER BY Rate DESC) AS RankBySalary  
+  FROM HumanResources.EmployeePayHistory; 
