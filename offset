@@ -1,0 +1,12 @@
+1)
+ SELECT *
+    FROM employees
+    ORDER BY salary
+    OFFSET 2 ROWS;
+
+2)
+ SELECT *
+    FROM employees
+    ORDER BY salary
+    OFFSET 2 ROWS
+	fetch next 3 rows only;
