@@ -1,0 +1,18 @@
+SELECT GETDATE() as date;
+
+SELECT DATEPART(YEAR, '2023-07-28') as year;
+
+SELECT YEAR('2023-07-28') as year;
+SELECT MONTH('2023-07-28') as month;
+SELECT DAY('2023-07-28') as day;
+
+SELECT DATEDIFF(DAY, '2023-07-28', '2024-07-31') as Diff;
+SELECT DATEDIFF(year,'2005-12-31', '2006-12-02') as Diff;
+
+SELECT DATEADD(month, 1, '2006-08-31');
+
+SELECT SalesOrderID,OrderDate,DATEADD(day,2,OrderDate) AS PromisedShipDate  
+FROM Sales.SalesOrderHeader; 
+
+SELECT DATEADD(month,-(10/2), SYSDATETIME());
+
