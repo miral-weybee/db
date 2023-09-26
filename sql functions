@@ -1,0 +1,114 @@
+1)Scalar Functions
+->SELECT SUM(Quantity) AS TotalItemsOrdered FROM OrderDetails;
+->SELECT AVG(Price) AS AveragePrice FROM Products;
+->SELECT MAX(Price) AS LargestPrice FROM Products;
+->SELECT MIN(Price) AS SmallestPrice FROM Products;
+->SELECT COUNT(ProductID) AS NumberOfProducts FROM Products;
+->SELECT UPPER('SQL Tutorial is FUN!');
+->SELECT LOWER('SQL Tutorial is FUN!');
+->SELECT LEN('google.com');
+->SELECT CONCAT('google', '.com');
+->SELECT SUBSTRING('SQL Tutorial', 1, 3) AS ExtractString;
+->SELECT DATEPART(year, '2018/08/25') AS DatePartInt;
+
+2)Aggregate Function
+->SELECT SUM(Quantity) AS TotalItemsOrdered FROM OrderDetails;
+->SELECT AVG(Price) AS AveragePrice FROM Products;
+->SELECT MAX(Price) AS LargestPrice FROM Products;
+->SELECT MIN(Price) AS SmallestPrice FROM Products;
+->SELECT COUNT(ProductID) AS NumberOfProducts FROM Products;
+
+3)String Function
+->SELECT UPPER('SQL Tutorial is FUN!');
+->SELECT LOWER('SQL Tutorial is FUN!');
+->SELECT LEN('google.com');
+->SELECT CONCAT('google', '.com');
+->SELECT SUBSTRING('SQL Tutorial', 1, 3) AS ExtractString;
+->SELECT LEFT('SQL Tutorial', 3) AS ExtractString;
+->SELECT RIGHT('SQL Tutorial', 3) AS ExtractString;
+->SELECT LTRIM('     SQL Tutorial') AS LeftTrimmedString;
+->SELECT RTRIM('SQL Tutorial     ') AS LeftTrimmedString;
+->SELECT REPLACE('SQL Tutorial', 'T', 'M');
+
+4)Date and Time Functions:
+->SELECT GETDATE();
+->SELECT CURRENT_TIMESTAMP;
+->SELECT DATEPART(year, '2018/08/25') AS DatePartInt;
+->SELECT DATEADD(month, 1, '2006-08-31');
+->SELECT DATEDIFF(year,'2005-12-31', '2006-01-01');
+->SELECT YEAR('2010-04-30');  
+->SELECT MONTH('2010-04-30');
+->SELECT DAY('2010-04-30');
+->SELECT EOMONTH('2019-02-15') end_of_month_feb2019;
+
+5)Conversion Functions:
+->SELECT CONVERT(int, 25.65);
+->SELECT CAST(25.65 AS int);
+->SELECT PARSE('Monday, 13 December 2010' AS datetime2 USING 'en-US') AS Result;
+
+6)Mathematical Functions:
+->SELECT Abs(-243.5) AS AbsNum;
+->SELECT ROUND(235.415, 2) AS RoundValue;
+->SELECT CEILING(25.75) AS CeilValue;
+->SELECT FLOOR(25.75) AS FloorValue;
+->SELECT POWER(4, 2);
+->SELECT SQRT(64);
+->SELECT EXP(1);
+->SELECT LOG(2);
+->SELECT SIN(45.175643);
+->SELECT COS(45.175643);
+->SELECT TAN(45.175643);
+
+7)Logical Functions:
+->SELECT * FROM employee WHERE emp_city = 'Allahabad' AND emp_country = 'India';
+->SELECT * FROM employee WHERE emp_city = 'Allahabad' OR emp_country = 'India';
+->SELECT * FROM employee WHERE emp_city NOT LIKE 'A%';
+
+8)Window Functions:
+->SELECT start_terminal,
+       start_time,
+       duration_seconds,
+       ROW_NUMBER() OVER (ORDER BY start_time)
+                    AS row_number
+  FROM tutorial.dc_bikeshare_q1_2012
+ WHERE start_time < '2012-01-08'
+->SELECT start_terminal,
+       duration_seconds,
+       RANK() OVER (PARTITION BY start_terminal
+                    ORDER BY start_time)
+              AS rank
+  FROM tutorial.dc_bikeshare_q1_2012
+ WHERE start_time < '2012-01-08'
+->SELECT start_terminal,
+       duration_seconds,
+       DENSE_RANK() OVER (PARTITION BY start_terminal
+                    ORDER BY start_time)
+              AS rank
+  FROM tutorial.dc_bikeshare_q1_2012
+ WHERE start_time < '2012-01-08'
+->SELECT start_terminal,
+       duration_seconds,
+       NTILE(4) OVER
+         (PARTITION BY start_terminal ORDER BY duration_seconds)
+          AS quartile,
+  FROM tutorial.dc_bikeshare_q1_2012
+ WHERE start_time < '2012-01-08'
+ ORDER BY start_terminal, duration_seconds
+->SELECT duration_seconds,
+       SUM(duration_seconds) OVER (ORDER BY start_time) AS running_total
+  FROM tutorial.dc_bikeshare_q1_2012
+->SELECT start_terminal,
+       duration_seconds,
+       AVG(duration_seconds) OVER
+         (PARTITION BY start_terminal) AS running_avg
+  FROM tutorial.dc_bikeshare_q1_2012
+ WHERE start_time < '2012-01-08'
+->SELECT start_terminal,
+       duration_seconds,
+       LAG(duration_seconds, 1) OVER
+         (PARTITION BY start_terminal ORDER BY duration_seconds) AS lag,
+       LEAD(duration_seconds, 1) OVER
+         (PARTITION BY start_terminal ORDER BY duration_seconds) AS lead
+  FROM tutorial.dc_bikeshare_q1_2012
+ WHERE start_time < '2012-01-08'
+ ORDER BY start_terminal, duration_seconds
