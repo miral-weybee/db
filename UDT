@@ -1,0 +1,25 @@
+1)Structured User-Defined Types:
+->CREATE TYPE StateTbl AS TABLE
+  ( StateID INT
+  , StateCode VARCHAR(2)
+  , StateName VARCHAR(200)
+  );
+//Stored procedure to insert data
+  @S StateTbl READONLY
+   as
+  SELECT StateName
+   FROM @s
+   ORDER BY StateName
+  RETURN 0;
+  GO
+//data to be inserted
+  DECLARE @p TABLE (id INT, scode VARCHAR(3), sname VARCHAR(20))
+  INSERT @p
+   VALUES (1, 'NC', 'North Carolina')
+        , (2, 'VA', 'Virginia')
+        , (3, 'CO', 'Colorado');
+//Stored procedure execution
+EXEC SortStates @p;
+
+2)Distinct User-defined Types:
+->CREATE TYPE ssn FROM varchar(11) NOT NULL ;  
