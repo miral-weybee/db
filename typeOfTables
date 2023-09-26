@@ -1,0 +1,22 @@
+1)Temporary tables:
+->CREATE TABLE #MyTempTable
+  (
+   PolicyId INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+   LastName VARCHAR(50) NOT NULL 
+  )
+
+  INSERT INTO #MyTempTable
+  SELECT PolicyId, LastName 
+  FROM dbo.Policy
+  WHERE LastName LIKE 'A%'
+
+2)Table variables:
+->DECLARE @MyTableVariable TABLE 
+  (
+   PolicyId INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+   LastName VARCHAR(50) NOT NULL 
+  )
+  INSERT INTO @MyTableVariable
+  SELECT PolicyId, LastName 
+  FROM dbo.Policy
+  WHERE LastName LIKE 'A%'
