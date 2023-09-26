@@ -1,0 +1,11 @@
+1)Case-Sensitive String Comparison:
+->Select * from a_table where attribute = 'k'
+
+2)Case-Insensitive String Comparison:
+->SELECT * FROM employees WHERE name COLLATE Latin1_General_CI_AI = 'john';
+
+3)CASE Expression for Custom Comparisons:
+->SELECT name, CASE WHEN name = 'John' THEN 'Match'
+                    WHEN UPPER(name) = 'JOHN' THEN 'Case-insensitive Match' 
+                    ELSE 'No Match' END AS MatchStatus 
+                    FROM employees;
