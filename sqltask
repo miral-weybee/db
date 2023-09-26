@@ -1,0 +1,56 @@
+1)Create a scalar function that accepts string as a parameter and return whether the string is correct mail Id or not.
+->CREATE FUNCTION dbo.ChkValidEmail(@EMAIL varchar(100))RETURNS bit as
+  BEGIN     
+    DECLARE @bitEmailVal as Bit
+    DECLARE @EmailText varchar(100)
+    SET @EmailText=ltrim(rtrim(isnull(@EMAIL,'')))
+    SET @bitEmailVal = case when @EmailText = '' then 0
+                          when @EmailText like '% %' then 0
+                          when @EmailText like ('%["(),:;<>\]%') then 0
+                          when substring(@EmailText,charindex('@',@EmailText),len(@EmailText)) like ('%[!#$%&*+/=?^`_{|]%') then 0
+                          when (left(@EmailText,1) like ('[-_.+]') or right(@EmailText,1) like ('[-_.+]')) then 0                                                                                    
+                          when (@EmailText like '%[%' or @EmailText like '%]%') then 0
+                          when @EmailText LIKE '%@%@%' then 0
+                          when @EmailText NOT LIKE '_%@_%._%' then 0
+                          else 1 
+                      end
+  RETURN @bitEmailVal
+  END 
+  GO
+
+2)Create a tabular function that accepts one parameter as employee department and return the employees working in that department.
+->create function getAbc(@deptname varchar(20)) returns table
+  as return select employees.*,depar from employees inner join departments 
+  on employees.department_id = departments.department_id where departments.department_name = @deptname
+
+3)Create a function that returns the data of employee records based on the page number passed. Parameters required are PageNumber, PageSize (Hint: use Row_Number, Partition by).
+->create function pagination(@pageno int) returns table
+  as return select employee_id,first_name from employees order by employee_id offset (@pageno - 1)* 10 rows
+  fetch next 10 rows only
+
+  select * from pagination(2)
+
+4)‘Select EmpId, FirstName, LastName, PhoneNumber, Email from Employees’ check the execution plan for the given query and save it. Now, optimize the query and then check the execution plan and save it.
+->Before : https://github.com/miral-weybee/db/blob/main/Before%20index.sqlplan
+->After : https://github.com/miral-weybee/db/blob/main/After%20index.sqlplan
+
+5)Create a stored procedure that prints the employee info in the following format: 'employeename' hired on 'hiredate' has a salary package of 'salarypackage'
+->create procedure print_cursor
+  as
+  	declare @first_name varchar(50); 
+	  declare @hire_date varchar(50); 
+	  declare @salary int
+	  declare @count int = 10
+	  declare empprint scroll cursor for select first_name, hire_date, salary from employees
+	  open empprint
+	  	fetch next from empprint into  @first_name, @hire_date, @salary
+	  while(@count != 0)
+  	begin
+  		print @first_name + ' hired on ' + @hire_date + ' has a salary package of ' + cast(@salary as varchar(20))
+	  	fetch next from empprint into  @first_name, @hire_date, @salary
+	  	set @count = @count - 1
+	  end
+  	close empprint
+  	deallocate empprint
+  go
+exec print_cursor
